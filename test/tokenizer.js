@@ -14,8 +14,11 @@ const tokenizer = require("../lib/tokenizer.js");
 function tkTest(fName, expected) {
     const result = [];
     const callbacks = {
-        endOfLine(data) {
-            result.push(["endOfLine", data]);
+        newLine(data) {
+            result.push(["newLine", data]);
+        },
+        blankLine(data) {
+            result.push(["blankLine", data]);
         },
         text(data) {
             result.push(["text", data]);
@@ -52,42 +55,50 @@ describe("tokenizer", function() {
         return tkTest("sections_1.adoc", [
           [ "sectionTitle2", "==" ],
           [ "text", "First Section" ],
-          [ "endOfLine", "\n" ],
-          [ "endOfLine", "\n" ],
+          [ "blankLine", "\n\n" ],
           [ "text", "Content of first section" ],
-          [ "endOfLine", "\n" ],
-          [ "endOfLine", "\n" ],
+          [ "blankLine", "\n\n" ],
           [ "sectionTitle3", "===" ],
           [ "text", "Nested Section" ],
-          [ "endOfLine", "\n" ],
-          [ "endOfLine", "\n" ],
+          [ "blankLine", "\n\n" ],
           [ "text", "Content of nested section" ],
-          [ "endOfLine", "\n" ],
-          [ "endOfLine", "\n" ],
+          [ "blankLine", "\n\n" ],
           [ "sectionTitle2", "==" ],
           [ "text", "Second Section" ],
-          [ "endOfLine", "\n" ],
-          [ "endOfLine", "\n" ],
+          [ "blankLine", "\n\n" ],
           [ "text", "Content of second section" ],
-          [ "endOfLine", "\n" ],
         ]);
     });
 
-    it("should tokenize unordered lists with title", function() {
+    it("should tokenize unordered lists", function() {
         return tkTest("lists_1.adoc", [
-          [ "title", ".Kizmet's Favorite Authors" ],
-          [ "endOfLine", "\n" ],
           [ "unorderedList1", "*" ],
           [ "text", "Edgar Allan Poe" ],
-          [ "endOfLine", "\n" ],
+          [ "newLine", "\n" ],
           [ "unorderedList1", "*" ],
           [ "text", "Sheri S. Tepper" ],
-          [ "endOfLine", "\n" ],
+          [ "newLine", "\n" ],
           [ "unorderedList1", "*" ],
           [ "text", "Bill Bryson" ],
-          [ "endOfLine", "\n" ],
         ]);
     });
+
+    for(let i of ['a','b','c']) {
+        const fName = `lists_2${i}.adoc`;
+        it(`should tokenize unordered lists with title (${fName})`, function() {
+            return tkTest(fName, [
+              [ "title", ".Kizmet's Favorite Authors" ],
+              [ "unorderedList1", "*" ],
+              [ "text", "Edgar Allan Poe" ],
+              [ "newLine", "\n" ],
+              [ "unorderedList1", "*" ],
+              [ "text", "Sheri S. Tepper" ],
+              [ "newLine", "\n" ],
+              [ "unorderedList1", "*" ],
+              [ "text", "Bill Bryson" ],
+            ]);
+        });
+    };
 });
 
 
