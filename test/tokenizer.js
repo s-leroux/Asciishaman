@@ -152,7 +152,7 @@ describe("tokenizer", function() {
         const fName = `lists_2${i}.adoc`;
         it(`should tokenize unordered lists with title (${fName})`, function() {
             return tkTest(fName, [
-              [ "title", ".Kizmet's Favorite Authors" ],
+              [ "title", "Kizmet's Favorite Authors" ],
               [ "unorderedList1", "*" ],
               [ "text", "Edgar Allan Poe" ],
               [ "newLine", "\n" ],
