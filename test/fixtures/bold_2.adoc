@@ -1,0 +1,2 @@
+A lone * is not a bold character.
+

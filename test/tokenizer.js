@@ -95,6 +95,14 @@ describe("tokenizer", function() {
         ]);
     });
 
+    it("should consider a lone star as text", function() {
+        return tkTest("bold_2.adoc", [
+          [ "text", "A lone " ],
+          [ "star1", "*" ],
+          [ "text", " is not a bold character." ],
+        ]);
+    });
+
     it("should tokenize section titles", function() {
         return tkTest("sections_1.adoc", [
           [ "sectionTitle2", "==" ],
