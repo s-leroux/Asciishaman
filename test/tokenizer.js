@@ -20,11 +20,20 @@ function tkTest(fName, expected) {
         blankLine(data) {
             result.push(["blankLine", data]);
         },
+        star1(data) {
+            result.push(["star1", data]);
+        },
+        star2(data) {
+            result.push(["star2", data]);
+        },
         text(data) {
             result.push(["text", data]);
         },
         unorderedList1(data) {
             result.push(["unorderedList1", data]);
+        },
+        unorderedList2(data) {
+            result.push(["unorderedList2", data]);
         },
         sectionTitle1(data) {
             result.push(["sectionTitle1", data]);
@@ -109,6 +118,31 @@ describe("tokenizer", function() {
             ]);
         });
     };
+
+    it("should tokenize paragraph (bold)", function() {
+        return tkTest("bold_1.adoc", [
+          [ "text", "A bold " ],
+          [ "star1", "*" ],
+          [ "text", "word" ],
+          [ "star1", "*" ],
+          [ "text", ", and a bold " ],
+          [ "star1", "*" ],
+          [ "text", "phrase of text" ],
+          [ "star1", "*" ],
+          [ "text", "." ],
+          [ "blankLine", "\n\n" ],
+
+          [ "text", "Bold c" ],
+          [ "star2", "**" ],
+          [ "text", "hara" ],
+          [ "star2", "**" ],
+          [ "text", "cter" ],
+          [ "star2", "**" ],
+          [ "text", "s" ],
+          [ "star2", "**" ],
+          [ "text", " within a word." ],
+        ]);
+    });
 });
 
 

@@ -1,0 +1,3 @@
+A bold *word*, and a bold *phrase of text*.
+
+Bold c**hara**cter**s** within a word.
