@@ -13,45 +13,13 @@ const tokenizer = require("../lib/tokenizer.js");
 
 function tkTest(fName, expected) {
     const result = [];
-    const callbacks = {
-        newLine(data) {
-            result.push(["newLine", data]);
-        },
-        blankLine(data) {
-            result.push(["blankLine", data]);
-        },
-        star1(data) {
-            result.push(["star1", data]);
-        },
-        star2(data) {
-            result.push(["star2", data]);
-        },
-        text(data) {
-            result.push(["text", data]);
-        },
-        unorderedList1(data) {
-            result.push(["unorderedList1", data]);
-        },
-        unorderedList2(data) {
-            result.push(["unorderedList2", data]);
-        },
-        sectionTitle1(data) {
-            result.push(["sectionTitle1", data]);
-        },
-        sectionTitle2(data) {
-            result.push(["sectionTitle2", data]);
-        },
-        sectionTitle3(data) {
-            result.push(["sectionTitle3", data]);
-        },
-        title(data) {
-            result.push(["title", data]);
-        },
+    const callback = function(tk, data) {
+        result.push([tk.description, data]);
     };
 
     return tokenizer.Tokenizer(
         fs.createReadStream(fixture(fName), { highWaterMark: 16 }),
-        callbacks
+        callback
     ).then(() => {
         assert.deepEqual(result, expected);
     });
