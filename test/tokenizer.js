@@ -51,6 +51,16 @@ function tkTest(fName, expected) {
 describe("tokenizer", function() {
     this.timeout(10);
 
+    it("should tokenize paragraphs", function() {
+        return tkTest("paragraph_1.adoc", [
+          [ "text", "Paragraphs don't require any special markup in AsciiDoc." ],
+          [ "newLine", "\n" ],
+          [ "text", "A paragraph is just one or more lines of consecutive text." ],
+          [ "blankLine", "\n\n" ],
+          [ "text", "To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block." ],
+        ]);
+    });
+
     it("should tokenize section titles", function() {
         return tkTest("sections_1.adoc", [
           [ "sectionTitle2", "==" ],
