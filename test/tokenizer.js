@@ -70,6 +70,31 @@ describe("tokenizer", function() {
         ]);
     });
 
+    it("should tokenize paragraph (bold)", function() {
+        return tkTest("bold_1.adoc", [
+          [ "text", "A bold " ],
+          [ "star1", "*" ],
+          [ "text", "word" ],
+          [ "star1", "*" ],
+          [ "text", ", and a bold " ],
+          [ "star1", "*" ],
+          [ "text", "phrase of text" ],
+          [ "star1", "*" ],
+          [ "text", "." ],
+          [ "blankLine", "\n\n" ],
+
+          [ "text", "Bold c" ],
+          [ "star2", "**" ],
+          [ "text", "hara" ],
+          [ "star2", "**" ],
+          [ "text", "cter" ],
+          [ "star2", "**" ],
+          [ "text", "s" ],
+          [ "star2", "**" ],
+          [ "text", " within a word." ],
+        ]);
+    });
+
     it("should tokenize section titles", function() {
         return tkTest("sections_1.adoc", [
           [ "sectionTitle2", "==" ],
@@ -86,6 +111,19 @@ describe("tokenizer", function() {
           [ "text", "Second Section" ],
           [ "blankLine", "\n\n" ],
           [ "text", "Content of second section" ],
+        ]);
+    });
+
+    it("should tokenize section titles (bold)", function() {
+        return tkTest("sections_2.adoc", [
+          [ "sectionTitle2", "==" ],
+          [ "text", "Section title with a " ],
+          [ "star1", "*" ],
+          [ "text", "bold" ],
+          [ "star1", "*" ],
+          [ "text", " word" ],
+          [ "blankLine", "\n\n" ],
+          [ "text", "Section content" ],
         ]);
     });
 
@@ -119,30 +157,6 @@ describe("tokenizer", function() {
         });
     };
 
-    it("should tokenize paragraph (bold)", function() {
-        return tkTest("bold_1.adoc", [
-          [ "text", "A bold " ],
-          [ "star1", "*" ],
-          [ "text", "word" ],
-          [ "star1", "*" ],
-          [ "text", ", and a bold " ],
-          [ "star1", "*" ],
-          [ "text", "phrase of text" ],
-          [ "star1", "*" ],
-          [ "text", "." ],
-          [ "blankLine", "\n\n" ],
-
-          [ "text", "Bold c" ],
-          [ "star2", "**" ],
-          [ "text", "hara" ],
-          [ "star2", "**" ],
-          [ "text", "cter" ],
-          [ "star2", "**" ],
-          [ "text", "s" ],
-          [ "star2", "**" ],
-          [ "text", " within a word." ],
-        ]);
-    });
 });
 
 
