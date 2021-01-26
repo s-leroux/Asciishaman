@@ -50,7 +50,7 @@ function tkTest(fName, expected) {
     };
 
     return tokenizer.Tokenizer(
-        fs.createReadStream(fixture(fName)),
+        fs.createReadStream(fixture(fName), { highWaterMark: 16 }),
         callbacks
     ).then(() => {
         assert.deepEqual(result, expected);
