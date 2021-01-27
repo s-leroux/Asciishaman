@@ -38,6 +38,7 @@ describe("tokenizer", function() {
           [ "text", "A paragraph is just one or more lines of consecutive text." ],
           [ "blankLine", "\n\n" ],
           [ "text", "To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block." ],
+          [ "end", "" ],
         ]);
     });
 
@@ -63,6 +64,7 @@ describe("tokenizer", function() {
           [ "text", "s" ],
           [ "star2", "**" ],
           [ "text", " within a word." ],
+          [ "end", "" ],
         ]);
     });
 
@@ -71,6 +73,7 @@ describe("tokenizer", function() {
           [ "text", "A lone " ],
           [ "star1", "*" ],
           [ "text", " is not a bold character." ],
+          [ "end", "" ],
         ]);
     });
 
@@ -90,6 +93,7 @@ describe("tokenizer", function() {
           [ "text", "Second Section" ],
           [ "blankLine", "\n\n" ],
           [ "text", "Content of second section" ],
+          [ "end", "" ],
         ]);
     });
 
@@ -103,6 +107,7 @@ describe("tokenizer", function() {
           [ "text", " word" ],
           [ "blankLine", "\n\n" ],
           [ "text", "Section content" ],
+          [ "end", "" ],
         ]);
     });
 
@@ -116,6 +121,7 @@ describe("tokenizer", function() {
           [ "newLine", "\n" ],
           [ "unorderedList1", "*" ],
           [ "text", "Bill Bryson" ],
+          [ "end", "" ],
         ]);
     });
 
@@ -132,6 +138,7 @@ describe("tokenizer", function() {
               [ "newLine", "\n" ],
               [ "unorderedList1", "*" ],
               [ "text", "Bill Bryson" ],
+              [ "end", "" ],
             ]);
         });
     };
