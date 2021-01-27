@@ -35,7 +35,7 @@ describe("model", function() {
         const paragraph = document.makeParagraph();
         const text = paragraph.makeText();
 
-        text.appendText(myText);
+        text.concat(myText);
 
         assert.equal(text.text(), myText);
         assert(Object.is(paragraph, text.parent()));
