@@ -20,7 +20,7 @@ function tkTest(fName, expected) {
     });
 }
 
-describe("tokenizer", function() {
+describe("parser", function() {
     this.timeout(10);
 
     it("should parse paragraphs", function() {

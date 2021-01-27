@@ -4,7 +4,7 @@
   "description": "A pure JavaScript implementation of the AsciiDoc document language for Node.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/tests.js"
   },
   "repository": {
     "type": "git",

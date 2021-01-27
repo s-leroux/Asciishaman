@@ -9,3 +9,9 @@ describe("module", function() {
         gp = require("../index.js");
     });
 });
+
+require('./model.js');
+require('./visitor.js');
+
+require('./tokenizer.js');
+require('./parser.js');
