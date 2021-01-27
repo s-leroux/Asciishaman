@@ -1,8 +1,8 @@
-const streams = require('memory-streams');
 const debug = require("debug")("asciishaman:tests-visitor");
 const chai = require('chai');
 const assert = chai.assert;
 
+const streams = require('memory-streams');
 
 const { HTMLVisitor } = require("../lib/visitors/html.js");
 const dom = require("../lib/model.js");
