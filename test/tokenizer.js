@@ -9,16 +9,19 @@ function fixture(fName) {
   return path.join(__dirname, "fixtures", fName);
 }
 
-const tokenizer = require("../lib/tokenizer.js");
+const tokenizer = require("../lib/tokenizer");
+const { Diagnostic } = require("../lib/diagnostic");
 
 function tkTest(fName, expected) {
     const result = [];
+    const diagnostic = new Diagnostic;
     const callback = function(tk, data) {
         result.push([tk.description, data]);
     };
 
     return tokenizer.Tokenizer(
         fs.createReadStream(fixture(fName), { highWaterMark: 16 }),
+        diagnostic,
         callback
     ).then(() => {
         assert.deepEqual(result, expected);

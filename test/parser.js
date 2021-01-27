@@ -11,14 +11,17 @@ function fixture(fName) { // XXX move me to test/utils.js
   return path.join(__dirname, "fixtures", fName);
 } 
 
-const parser = require("../lib/parser.js");
+const parser = require("../lib/parser");
+const { Diagnostic } = require("../lib/diagnostic");
 const { HTMLVisitor } = require("../lib/visitors/html");
 
 function tkTest(fName, expected) {
     const output = new streams.WritableStream();
+    const diagnostic = new Diagnostic();
 
     return parser.Parser(
-        fs.createReadStream(fixture(fName), { highWaterMark: 16 })
+        fs.createReadStream(fixture(fName), { highWaterMark: 16 }),
+        diagnostic,
     )
     .then((document) => {
         const visitor = new HTMLVisitor(output);
