@@ -30,6 +30,7 @@ function tkTest(fName, expected) {
         // assert.deepEqual(result, expected);
     })
     .then(() => {
+        assert.isTrue(diagnostic.success());
         assert.equal(output.toString(), expected);
     });
 }
