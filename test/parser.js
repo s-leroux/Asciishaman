@@ -24,7 +24,7 @@ describe("tokenizer", function() {
     this.timeout(10);
 
     it("should parse paragraphs", function() {
-        return tkTest("paragraph_1.adoc")
+        return tkTest("paragraph_1.adoc", true)
           .then(ast => {
             debug(ast);
           });
