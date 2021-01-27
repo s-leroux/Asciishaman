@@ -19,7 +19,7 @@ describe("visitor (html)", function() {
       p1.makeText().concat("world");
       p2.makeText().concat("!");
 
-      const visitor = new HTMLVisitor();
+      const visitor = new HTMLVisitor(process.stdout);
       visitor.visit(doc);
     });
 
