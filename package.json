@@ -23,6 +23,7 @@
   "homepage": "https://github.com/s-leroux/Asciishaman#readme",
   "devDependencies": {
     "chai": "^4.2.0",
+    "memory-streams": "^0.1.3",
     "mocha": "^8.2.1"
   },
   "dependencies": {
