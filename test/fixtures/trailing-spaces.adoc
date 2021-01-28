@@ -1,0 +1,5 @@
+== My section     
+
+This document      
+contains trailing spaces      
+and tabs.       

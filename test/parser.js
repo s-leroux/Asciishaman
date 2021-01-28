@@ -37,7 +37,7 @@ function tkTest(fName, expected) {
 }
 
 describe("parser", function() {
-    this.timeout(10);
+    this.timeout(20);
 
     it("should parse paragraphs", function() {
         return tkTest("paragraph_1.adoc",

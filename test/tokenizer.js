@@ -29,7 +29,7 @@ function tkTest(fName, expected) {
 }
 
 describe("tokenizer", function() {
-    this.timeout(10);
+    this.timeout(20);
 
     it("should tokenize paragraphs", function() {
         return tkTest("paragraph_1.adoc", [
@@ -107,6 +107,20 @@ describe("tokenizer", function() {
           [ "text", " word" ],
           [ "blankLine", "\n\n" ],
           [ "text", "Section content" ],
+          [ "end", "" ],
+        ]);
+    });
+
+    it("should remove trailing spaces and tabs", function() {
+        return tkTest("trailing-spaces.adoc", [
+          [ "sectionTitle2", "==" ],
+          [ "text", "My section" ],
+          [ "blankLine", "\n\n" ],
+          [ "text", "This document" ],
+          [ "newLine", "\n" ],
+          [ "text", "contains trailing spaces" ],
+          [ "newLine", "\n" ],
+          [ "text", "and tabs." ],
           [ "end", "" ],
         ]);
     });
