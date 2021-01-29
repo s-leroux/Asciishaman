@@ -15,3 +15,5 @@ require('./visitor.js');
 
 require('./tokenizer.js');
 require('./parser.js');
+
+require('./integration.js');

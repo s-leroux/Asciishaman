@@ -20,9 +20,10 @@ function tkTest(fName, expected) {
     };
 
     return tokenizer.Tokenizer(
-        fs.createReadStream(fixture(fName), { highWaterMark: 16 }),
-        diagnostic,
-        callback
+              fs.createReadStream(fixture(fName), { highWaterMark: 16 })
+            )(
+              diagnostic,
+              callback
     ).then(() => {
         assert.deepEqual(result, expected);
     });
@@ -42,8 +43,64 @@ describe("tokenizer", function() {
         ]);
     });
 
+    it("should remove trailing spaces and tabs", function() {
+        return tkTest("trailing-spaces.adoc", [
+          [ "sectionTitle", "==" ],
+          [ "text", "My section" ],
+          [ "blankLine", "\n\n" ],
+          [ "text", "This document" ],
+          [ "newLine", "\n" ],
+          [ "text", "contains trailing spaces" ],
+          [ "newLine", "\n" ],
+          [ "text", "and tabs." ],
+          [ "end", "" ],
+        ]);
+    });
+
+    it("should detect blank lines (empty)", function() {
+        return tkTest("empty_lines_1.adoc", [
+          [ "text", "The line below is empty:" ],
+          [ "blankLine", "\n\n" ],
+          [ "text", "Some content" ],
+          [ "end", "" ],
+        ]);
+    });
+
+    it("should detect blank lines (empty)", function() {
+        return tkTest("empty_lines_2.adoc", [
+          [ "text", "The line below contains a space:" ],
+          [ "blankLine", "\n \n" ],
+          [ "text", "Some content" ],
+          [ "end", "" ],
+        ]);
+    });
+
     it("should tokenize paragraph (bold)", function() {
         return tkTest("bold_1.adoc", [
+          [ "text", "A bold " ],
+          [ "star1", "*" ],
+          [ "text", "word" ],
+          [ "star1", "*" ],
+          [ "text", ", and a bold " ],
+          [ "star1", "*" ],
+          [ "text", "phrase of text" ],
+          [ "star1", "*" ],
+          [ "text", "." ],
+          [ "end", "" ],
+        ]);
+    });
+
+    it("should consider a lone star as text", function() {
+        return tkTest("bold_2.adoc", [
+          [ "text", "A lone " ],
+          [ "star1", "*" ],
+          [ "text", " is not a bold character." ],
+          [ "end", "" ],
+        ]);
+    });
+
+    it("should tokenize paragraph (with * and **)", function() {
+        return tkTest("bold_4.adoc", [
           [ "text", "A bold " ],
           [ "star1", "*" ],
           [ "text", "word" ],
@@ -68,28 +125,19 @@ describe("tokenizer", function() {
         ]);
     });
 
-    it("should consider a lone star as text", function() {
-        return tkTest("bold_2.adoc", [
-          [ "text", "A lone " ],
-          [ "star1", "*" ],
-          [ "text", " is not a bold character." ],
-          [ "end", "" ],
-        ]);
-    });
-
     it("should tokenize section titles", function() {
         return tkTest("sections_1.adoc", [
-          [ "sectionTitle2", "==" ],
+          [ "sectionTitle", "==" ],
           [ "text", "First Section" ],
           [ "blankLine", "\n\n" ],
           [ "text", "Content of first section" ],
           [ "blankLine", "\n\n" ],
-          [ "sectionTitle3", "===" ],
+          [ "sectionTitle", "===" ],
           [ "text", "Nested Section" ],
           [ "blankLine", "\n\n" ],
           [ "text", "Content of nested section" ],
           [ "blankLine", "\n\n" ],
-          [ "sectionTitle2", "==" ],
+          [ "sectionTitle", "==" ],
           [ "text", "Second Section" ],
           [ "blankLine", "\n\n" ],
           [ "text", "Content of second section" ],
@@ -99,7 +147,7 @@ describe("tokenizer", function() {
 
     it("should tokenize section titles (bold)", function() {
         return tkTest("sections_2.adoc", [
-          [ "sectionTitle2", "==" ],
+          [ "sectionTitle", "==" ],
           [ "text", "Section title with a " ],
           [ "star1", "*" ],
           [ "text", "bold" ],
@@ -107,20 +155,6 @@ describe("tokenizer", function() {
           [ "text", " word" ],
           [ "blankLine", "\n\n" ],
           [ "text", "Section content" ],
-          [ "end", "" ],
-        ]);
-    });
-
-    it("should remove trailing spaces and tabs", function() {
-        return tkTest("trailing-spaces.adoc", [
-          [ "sectionTitle2", "==" ],
-          [ "text", "My section" ],
-          [ "blankLine", "\n\n" ],
-          [ "text", "This document" ],
-          [ "newLine", "\n" ],
-          [ "text", "contains trailing spaces" ],
-          [ "newLine", "\n" ],
-          [ "text", "and tabs." ],
           [ "end", "" ],
         ]);
     });

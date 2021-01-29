@@ -1,0 +1,3 @@
+The line below contains a space:
+ 
+Some content
