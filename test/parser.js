@@ -4,123 +4,87 @@ const assert = chai.assert;
 
 const streams = require('memory-streams');
 
-const parser = require("../lib/parser");
-const Tk = require("../lib/token");
-const { Diagnostic } = require("../lib/diagnostic");
-const { HTMLVisitor } = require("../lib/visitors/html");
+const fs = require('fs');
+const path = require('path');
 
-function tkTest(tokenize) {
-    const output = new streams.WritableStream();
-    const diagnostic = new Diagnostic("");
-
-    return parser.Parser(diagnostic, tokenize)
-    .then((document) => {
-        const visitor = new HTMLVisitor(output);
-
-        return visitor.visit(document);
-    })
-    .then(() => [diagnostic, output.toString() ])
+function fixture(fName) { // XXX move me to test/utils.js
+  return path.join(__dirname, "fixtures", fName);
 }
 
+const parser = require("../lib/parser");
+const { Tokenizer } = require("../lib/tokenizer");
+const { Diagnostic } = require("../lib/diagnostic");
+const { HTMLVisitor } = require("../lib/visitors/html"); 
 
-describe("The parser (well-formed token streams)", function() {
-    this.timeout(20);
+function tkTest(fName, expected) {
+    const fPath = fixture(fName);
+    const input = fs.createReadStream(fPath, { highWaterMark: 16 });
+    const output = new streams.WritableStream();
 
-    it("should accept a single-line text-only paragraph", function() {
-        return tkTest((_, parse) => {
-          parse(Tk.TEXT, "Hello");
-          parse(Tk.END, "");
-        })
-          .then(([diagnostic ,output]) => {
-            assert.deepEqual(diagnostic._errors, []);
-            assert.equal(output, "<body><p>Hello</p></body>");
+    const diagnostic = new Diagnostic(fPath);
+    const tokenizer = Tokenizer(input);
+
+    return parser.Parser(diagnostic, tokenizer)
+              .then((document) => {
+                  assert.isOk(document);
+                  // console.dir(document, {depth: Infinity});
+                  const visitor = new HTMLVisitor(output);
+
+                  return visitor.visit(document);
+                  // assert.deepEqual(result, expected);
+              })
+              .then(() => {
+                  assert.deepEqual(diagnostic._errors, []);
+                  assert.equal(output.toString(), expected);
+              });
+}
+
+describe("parser", function() {
+    this.timeout(500);
+
+    describe("empty documents", function() {
+
+      it("should accept 0-byte documents", function() {
+          return tkTest("empty_1.adoc", "<body></body>")
+      });
+
+      it("should accept newline-only documents", function() {
+          return tkTest("empty_2.adoc", "<body></body>")
+      });
+
+
+    });
+
+    describe("core rules", function() {
+
+      it("should accept a one-line documents", function() {
+          return tkTest("text_1.adoc", "<body><p>A one-line document</p></body>")
+      });
+
+      it("should accept a two-lines documents", function() {
+          return tkTest("text_2.adoc", "<body><p>A two-lines document</p></body>")
+      });
+
+      it("should accept a two-paragraphs documents", function() {
+          return tkTest("paragraph_1.adoc", "<body><p>This document contains two paragraphs</p><p>Here is the second</p></body>")
+
+      });
+
+    });
+
+    it("should parse paragraphs", function() {
+        return tkTest("paragraph_2.adoc",
+                      "<body><p>Paragraphs don't require any special markup in AsciiDoc. A paragraph is just one or more lines of consecutive text.</p><p>To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block.</p></body>")
+          .then(ast => {
+            debug(ast);
           });
     });
 
-    it("should accept a multi-line text-only paragraph", function() {
-        return tkTest((_, parse) => {
-          parse(Tk.TEXT, "Hello");
-          parse(Tk.NEW_LINE, "\n");
-          parse(Tk.TEXT, "World");
-          parse(Tk.NEW_LINE, "\n");
-          parse(Tk.TEXT, "!");
-          parse(Tk.END, "");
-        })
-          .then(([diagnostic ,output]) => {
-            assert.deepEqual(diagnostic._errors, []);
-            assert.equal(output, "<body><p>Hello World !</p></body>");
-          });
-    });
-
-    it("should accept a mixed-content paragraph", function() {
-        return tkTest((_, parse) => {
-          parse(Tk.TEXT, "This text");
-          parse(Tk.STAR_1, "*");
-          parse(Tk.NEW_LINE, "\n");
-          parse(Tk.TEXT, "constains");
-          parse(Tk.NEW_LINE, "\n");
-          parse(Tk.TEXT, "some bold");
-          parse(Tk.STAR_1, "*");
-          parse(Tk.TEXT, "words");
-          parse(Tk.END, "");
-        })
-          .then(([diagnostic ,output]) => {
-            assert.deepEqual(diagnostic._errors, []);
-            assert.equal(output, "<body><p>This text<strong> constains some bold</strong>words</p></body>");
-          });
-    });
-
-    it("should accept mixed-content section headings", function() {
-        return tkTest((_, parse) => {
-          parse(Tk.SECTION, "==");
-          parse(Tk.TEXT, "This is a");
-          parse(Tk.STAR_1, "*");
-          parse(Tk.TEXT, "section heading");
-          parse(Tk.STAR_1, "*");
-          parse(Tk.NEW_LINE, "\n");
-          parse(Tk.TEXT, "Some content");
-          parse(Tk.END, "");
-        })
-          .then(([diagnostic ,output]) => {
-            assert.deepEqual(diagnostic._errors, []);
-            assert.equal(output, "<body><div><h2>This is a<strong>section heading</strong></h2><p>Some content</p></div></body>");
-          });
-    });
-
-    it("should accept a section without content", function() {
-        return tkTest((_, parse) => {
-          parse(Tk.SECTION, "==");
-          parse(Tk.TEXT, "My section");
-          parse(Tk.END, "");
-        })
-          .then(([diagnostic ,output]) => {
-            assert.deepEqual(diagnostic._errors, []);
-            assert.equal(output, "<body><div><h2>My section</h2></div></body>");
-          });
-    });
-});
-
-
-describe("The parser (ill-formed token streams)", function() {
-    this.timeout(20);
-
-    it("should detect unbalanced stars", function() {
-        return tkTest((_, parse) => {
-          parse(Tk.TEXT, "This text");
-          parse(Tk.STAR_1, "*");
-          parse(Tk.NEW_LINE, "\n");
-          parse(Tk.STAR_1, "*");
-          parse(Tk.TEXT, "constains");
-          parse(Tk.NEW_LINE, "\n");
-          parse(Tk.TEXT, "some bold");
-          parse(Tk.STAR_1, "*");
-          parse(Tk.TEXT, "words");
-          parse(Tk.END, "");
-        })
-          .then(([diagnostic ,output]) => {
-            assert.equal(diagnostic._errors.length, 1);
-            assert.match(diagnostic._errors[0].message, /star1 expected/);
-
+    it("should parse sections", function() {
+        return tkTest("bold_1.adoc",
+                      "<body><p>A bold *word*, and a bold *phrase of text*.</p></body>")
+          .then(ast => {
+            debug(ast);
           });
     });
 

@@ -11,21 +11,16 @@ describe("visitor (html)", function() {
     this.timeout(10);
 
     it("should output paragraphs with plain text", function() {
-      const doc = new dom.Document();
-      const p1 = doc.makeParagraph();
-      const p2 = doc.makeParagraph();
-
-      p1.makeText().concat("hello");
-      p1.makeText().concat(" ");
-      p1.makeText().concat("world");
-      p2.makeText().concat("!");
+      const p1 = new dom.Paragraph("Hello");
+      const p2 = new dom.Paragraph("World!");
+      const doc = new dom.Document(p1,p2);
 
       const writable = new streams.WritableStream();
       const visitor = new HTMLVisitor(writable);
       return visitor.visit(doc).then(() => {
         assert.equal(
           writable.toString(),
-          "<body><p><span>hello</span><span> </span><span>world</span></p><p><span>!</span></p></body>\n"
+          "<body><p>Hello</p><p>World!</p></body>"
         );
       });
     });

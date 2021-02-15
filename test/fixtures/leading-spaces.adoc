@@ -1,0 +1,7 @@
+  This document contains
+  leading spaces
+     
+        and
+
+  	
+       tabs.
