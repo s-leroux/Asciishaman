@@ -11,9 +11,12 @@ describe("visitor (html)", function() {
     this.timeout(10);
 
     it("should output paragraphs with plain text", function() {
-      const p1 = new dom.Paragraph("Hello");
-      const p2 = new dom.Paragraph("World!");
-      const doc = new dom.Document(p1,p2);
+      const doc = new dom.Document();
+      let builder = doc.builder();
+      builder = builder.addText("Hello");
+      builder = builder.close();
+      builder = builder.addText("World!");
+      builder = builder.close();
 
       const writable = new streams.WritableStream();
       const visitor = new HTMLVisitor(writable);

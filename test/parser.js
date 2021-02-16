@@ -55,25 +55,40 @@ describe("parser", function() {
 
     });
 
+
     describe("core rules", function() {
 
-      it("should accept a one-line documents", function() {
+      it("should accept one-line documents", function() {
           return tkTest("text_1.adoc", "<body><p>A one-line document</p></body>")
       });
 
-      it("should accept a two-lines documents", function() {
+      it("should accept two-lines documents", function() {
           return tkTest("text_2.adoc", "<body><p>A two-lines document</p></body>")
       });
 
-      it("should accept a two-paragraphs documents", function() {
+      it("should accept two-paragraphs documents", function() {
           return tkTest("paragraph_1.adoc", "<body><p>This document contains two paragraphs</p><p>Here is the second</p></body>")
+
+      });
+
+      it("should accept two-paragraphs documents with extra newlines", function() {
+          return tkTest("paragraph_2.adoc", "<body><p>There are extra newlines</p><p>Between these paragraphs</p></body>")
 
       });
 
     });
 
+    describe("sections", function() {
+
+      it("should parse sections", function() {
+          return tkTest("sections_1.adoc", "<body><div><h2>First Section</h2><p>Content of first section</p><div><h3>Nested Section</h3><p>Content of nested section</p></div></div><div><h2>Second Section</h2><p>Content of second section</p></div></body>")
+      });
+
+    });
+
+
     it("should parse paragraphs", function() {
-        return tkTest("paragraph_2.adoc",
+        return tkTest("paragraph_3.adoc",
                       "<body><p>Paragraphs don't require any special markup in AsciiDoc. A paragraph is just one or more lines of consecutive text.</p><p>To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block.</p></body>")
           .then(ast => {
             debug(ast);

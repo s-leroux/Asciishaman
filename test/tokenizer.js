@@ -52,14 +52,11 @@ describe("The tokenizer", function() {
     describe("plain text", function() {
 
       it("should parse text", function() {
-          return tkTest("paragraph_2.adoc", [
+          return tkTest("paragraph_3.adoc", [
             [ "text", "Paragraphs don't require any special markup in AsciiDoc." ],
-            [ "newLine", undefined ],
             [ "text", "A paragraph is just one or more lines of consecutive text." ],
-            [ "newLine", undefined ],
-            [ "newLine", undefined ],
+            [ "blankLine", undefined ],
             [ "text", "To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block." ],
-            [ "newLine", undefined ],
             [ "end", undefined ],
           ]);
       });
@@ -67,32 +64,21 @@ describe("The tokenizer", function() {
       it("should discard trailing spaces", function() {
           return tkTest("trailing-spaces.adoc", [
             [ "text", "This document" ],
-            [ "newLine", undefined ],
             [ "text", "contains trailing spaces" ],
-            [ "newLine", undefined ],
             [ "text", "and tabs." ],
-            [ "newLine", undefined ],
             [ "end", undefined ],
           ]);
       });
 
       it("should keep leading spaces on non-empty lines", function() {
           return tkTest("leading-spaces.adoc", [
-            [ "whiteSpace", "  " ],
-            [ "text", "This document contains" ],
-            [ "newLine", undefined ],
-            [ "whiteSpace", "  " ],
-            [ "text", "leading spaces" ],
-            [ "newLine", undefined ],
-            [ "newLine", undefined ],
-            [ "whiteSpace", "        " ],
-            [ "text", "and" ],
-            [ "newLine", undefined ],
-            [ "newLine", undefined ],
-            [ "newLine", undefined ],
-            [ "whiteSpace", "       " ],
-            [ "text", "tabs." ],
-            [ "newLine", undefined ],
+            [ "text", "  This document contains" ],
+            [ "text", "  leading spaces" ],
+            [ "blankLine", undefined ],
+            [ "text", "        and" ],
+            [ "blankLine", undefined ],
+            [ "blankLine", undefined ],
+            [ "text", "       tabs." ],
             [ "end", undefined ],
           ]);
       });

@@ -13,7 +13,7 @@ describe("model", function() {
         const document = new model.Document();
 
         assert.isNotNull(document);
-        assert.deepEqual(document.children(), []);
+        assert.deepEqual(document.children, []);
     });
 
     it("should create paragraph", function() {
