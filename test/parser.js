@@ -86,21 +86,32 @@ describe("parser", function() {
 
     });
 
+    describe("lists", function() {
 
-    it("should parse paragraphs", function() {
-        return tkTest("paragraph_3.adoc",
-                      "<body><p>Paragraphs don't require any special markup in AsciiDoc. A paragraph is just one or more lines of consecutive text.</p><p>To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block.</p></body>")
-          .then(ast => {
-            debug(ast);
-          });
+      it("should parse nested unordered lists", function() {
+          return tkTest("lists_2.adoc", "<body><ul><li><p>West wood maze</p><ul><li><p>Maze heart</p><ul><li><p>Reflection pool</p></li></ul></li><li><p>Secret exit</p></li></ul></li><li><p>Untracked file in git repository</p></li></ul></body>")
+      });
+
     });
 
-    it("should parse sections", function() {
-        return tkTest("bold_1.adoc",
-                      "<body><p>A bold *word*, and a bold *phrase of text*.</p></body>")
-          .then(ast => {
-            debug(ast);
-          });
+    describe("AsciiDoc test suite", function() {
+
+      it("paragraph", function() {
+          return tkTest("asciidoc-paragraph.adoc",
+                        "<body><p>Paragraphs don't require any special markup in AsciiDoc. A paragraph is just one or more lines of consecutive text.</p><p>To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block.</p></body>")
+            .then(ast => {
+              debug(ast);
+            });
+      });
+
+      it("unordered lists", function() {
+          return tkTest("asciidoc-unordered.adoc",
+                        "<body><ul><li><p>Edgar Allan Poe</p></li><li><p>Sheri S. Tepper</p></li><li><p>Bill Bryson</p></li></ul></body>")
+            .then(ast => {
+              debug(ast);
+            });
+      });
+
     });
 
 });

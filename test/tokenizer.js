@@ -52,7 +52,7 @@ describe("The tokenizer", function() {
     describe("plain text", function() {
 
       it("should parse text", function() {
-          return tkTest("paragraph_3.adoc", [
+          return tkTest("asciidoc-paragraph.adoc", [
             [ "text", "Paragraphs don't require any special markup in AsciiDoc." ],
             [ "text", "A paragraph is just one or more lines of consecutive text." ],
             [ "blankLine", undefined ],
