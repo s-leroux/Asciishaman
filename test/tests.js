@@ -10,8 +10,9 @@ describe("module", function() {
     });
 });
 
-require('./model.js');
+require('./inline-parser.js');
 require('./visitor.js');
+require('./model.js');
 
 require('./tokenizer.js');
 require('./parser.js');
