@@ -41,13 +41,13 @@ describe("string parser", function() {
         return dump(style).then((html) => assert.equal(html, "This <strong>is a <em>strong</em> text</strong> !"));
     });
 
-    it("should parse tyle markers at the start of a line", function() {
+    it("should parse style markers at the start of a line", function() {
         const style = ip.parseText("*world* !");
         
         return dump(style).then((html) => assert.equal(html, "<strong>world</strong> !"));
     });
 
-    it("should parse tyle markers at both the start and the end of a line", function() {
+    it("should parse style markers at both the start and the end of a line", function() {
         const style = ip.parseText("*world*");
         
         return dump(style).then((html) => assert.equal(html, "<strong>world</strong>"));
