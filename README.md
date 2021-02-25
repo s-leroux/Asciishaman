@@ -1,7 +1,7 @@
 Asciishaman
 ===========
 
-[![Build Status](https://travis-ci.org/s-leroux/Asciishaman.png?branch=master)](https://travis-ci.org/s-leroux/Asciishaman)
+[![Build Status](https://travis-ci.org/s-leroux/Asciishaman.png?branch=main)](https://travis-ci.org/s-leroux/Asciishaman)
 
 A pure JavaScript implementation of the AsciiDoc document language for Node.
 
