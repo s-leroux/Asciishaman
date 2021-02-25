@@ -29,6 +29,12 @@ describe("string parser", function() {
         return dump(style).then((html) => assert.equal(html, "Hello <strong>world</strong> !"));
     });
 
+    it("should parse multiple strong", function() {
+        const style = ip.parseText("*Hello* *world* !");
+        
+        return dump(style).then((html) => assert.equal(html, "<strong>Hello</strong> <strong>world</strong> !"));
+    });
+
     it("should parse italic", function() {
         const style = ip.parseText("Hello _world_ !");
         

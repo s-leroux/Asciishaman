@@ -27,8 +27,8 @@
     "mocha": "^8.2.1"
   },
   "dependencies": {
-    "backparse": "^0.3.1",
     "bluebird": "^3.7.2",
-    "debug": "^4.3.1"
+    "debug": "^4.3.1",
+    "pegparse": "0.0.5"
   }
 }
