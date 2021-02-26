@@ -15,8 +15,8 @@ const { Diagnostic } = require("../lib/diagnostic");
 function tkTest(fName, expected) {
     const result = [];
     const diagnostic = new Diagnostic;
-    const callback = function(tk) {
-        result.push([tk.tag.description, tk.data]);
+    const callback = function(tk, ...params) {
+        result.push([tk.description, ...params]);
     };
 
     return tokenizer.Tokenizer(
@@ -37,13 +37,13 @@ describe("The tokenizer", function() {
 
       it("should accept 0-byte documents", function() {
           return tkTest("empty_1.adoc", [
-            [ "end", undefined ],
+            [ "end" ],
           ]);
       });
 
       it("should accept newline-only documents", function() {
           return tkTest("empty_2.adoc", [
-            [ "end", undefined ],
+            [ "end" ],
           ]);
       });
 
@@ -53,33 +53,33 @@ describe("The tokenizer", function() {
 
       it("should parse text", function() {
           return tkTest("asciidoc-paragraph.adoc", [
-            [ "text", "Paragraphs don't require any special markup in AsciiDoc." ],
-            [ "text", "A paragraph is just one or more lines of consecutive text." ],
-            [ "blankLine", undefined ],
-            [ "text", "To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block." ],
-            [ "end", undefined ],
+            [ "plain-text", "Paragraphs don't require any special markup in AsciiDoc." ],
+            [ "plain-text", "A paragraph is just one or more lines of consecutive text." ],
+            [ "blank-line" ],
+            [ "plain-text", "To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block." ],
+            [ "end" ],
           ]);
       });
 
       it("should discard trailing spaces", function() {
           return tkTest("trailing-spaces.adoc", [
-            [ "text", "This document" ],
-            [ "text", "contains trailing spaces" ],
-            [ "text", "and tabs." ],
-            [ "end", undefined ],
+            [ "plain-text", "This document" ],
+            [ "plain-text", "contains trailing spaces" ],
+            [ "plain-text", "and tabs." ],
+            [ "end" ],
           ]);
       });
 
       it("should keep leading spaces on non-empty lines", function() {
           return tkTest("leading-spaces.adoc", [
-            [ "text", "  This document contains" ],
-            [ "text", "  leading spaces" ],
-            [ "blankLine", undefined ],
-            [ "text", "        and" ],
-            [ "blankLine", undefined ],
-            [ "blankLine", undefined ],
-            [ "text", "       tabs." ],
-            [ "end", undefined ],
+            [ "plain-text", "  This document contains" ],
+            [ "plain-text", "  leading spaces" ],
+            [ "blank-line" ],
+            [ "plain-text", "        and" ],
+            [ "blank-line" ],
+            [ "blank-line" ],
+            [ "plain-text", "       tabs." ],
+            [ "end" ],
           ]);
       });
 
