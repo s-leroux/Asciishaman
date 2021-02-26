@@ -1,18 +1,15 @@
-const debug = require("debug")("asciishaman:tests");
-
-const assert = require('chai').assert;
+"use strict";
 
 describe("module", function() {
-    let shaman = null;
 
-    it("should be loadable", function() {
-        gp = require("../index.js");
-    });
+  it("should be loadable", function() {
+    require("../index.js");
+  });
 });
 
-require('./inline-parser.js');
-require('./visitor.js');
-require('./model.js');
+require("./inline-parser.js");
+require("./visitor.js");
+require("./model.js");
 
-require('./tokenizer.js');
-require('./parser.js');
+require("./tokenizer.js");
+require("./parser.js");
