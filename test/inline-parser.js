@@ -9,7 +9,7 @@ const ip = require("../lib/inline-parser.js");
 const streams = require("memory-streams");
 const { HTMLVisitor } = require("../lib/visitors/html.js");
 
-describe("string parser", function() {
+describe("inline parser", function() {
   this.timeout(10);
 
   function dump(phrasingContent) {
@@ -24,16 +24,38 @@ describe("string parser", function() {
     return dump(style).then((html) => assert.equal(html, "Hello"));
   });
 
-  it("should parse strong", function() {
-    const style = ip.parseText("Hello *world* !");
+  describe("string parser", function() {
 
-    return dump(style).then((html) => assert.equal(html, "Hello <strong>world</strong> !"));
-  });
+    it("should parse strong (constrained)", function() {
+      const style = ip.parseText("Hello *world* !");
 
-  it("should parse multiple strong", function() {
-    const style = ip.parseText("*Hello* *world* !");
+      return dump(style).then((html) => assert.equal(html, "Hello <strong>world</strong> !"));
+    });
 
-    return dump(style).then((html) => assert.equal(html, "<strong>Hello</strong> <strong>world</strong> !"));
+    it("should parse strong (uncontrained)", function() {
+      const style = ip.parseText("Hello **w**orld !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <strong>w</strong>orld !"));
+    });
+
+    it("should backtrack to constrained if needed ", function() {
+      const style = ip.parseText("Hello **world* !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello *<strong>world</strong> !"));
+    });
+
+    it("should parse multiple strong (contrained)", function() {
+      const style = ip.parseText("*Hello* *world* !");
+
+      return dump(style).then((html) => assert.equal(html, "<strong>Hello</strong> <strong>world</strong> !"));
+    });
+
+    it("should parse multiple strong (uncontrained)", function() {
+      const style = ip.parseText("**H**ello **w**orld !");
+
+      return dump(style).then((html) => assert.equal(html, "<strong>H</strong>ello <strong>w</strong>orld !"));
+    });
+
   });
 
   it("should parse italic", function() {
