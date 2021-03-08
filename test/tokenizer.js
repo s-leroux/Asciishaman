@@ -56,7 +56,7 @@ describe("The tokenizer", function() {
       return tkTest("asciidoc-paragraph.adoc", [
         [ "plain-text", "Paragraphs don't require any special markup in AsciiDoc." ],
         [ "plain-text", "A paragraph is just one or more lines of consecutive text." ],
-        [ "blank-line" ],
+        [ "blank-line", 1 ],
         [ "plain-text", "To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block." ],
         [ "end" ],
       ]);
@@ -75,10 +75,9 @@ describe("The tokenizer", function() {
       return tkTest("leading-spaces.adoc", [
         [ "plain-text", "  This document contains" ],
         [ "plain-text", "  leading spaces" ],
-        [ "blank-line" ],
+        [ "blank-line", 1 ],
         [ "plain-text", "        and" ],
-        [ "blank-line" ],
-        [ "blank-line" ],
+        [ "blank-line", 2 ],
         [ "plain-text", "       tabs." ],
         [ "end" ],
       ]);
