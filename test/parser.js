@@ -1,5 +1,6 @@
 "use strict";
 
+
 const debug = require("debug")("asciishaman:tests-parser");
 const chai = require("chai");
 const assert = chai.assert;
@@ -92,6 +93,14 @@ describe("parser", function() {
 
     it("should parse nested unordered lists", function() {
       return tkTest("lists_2.adoc", "<body><ul><li><p>West wood maze</p><ul><li><p>Maze heart</p><ul><li><p>Reflection pool</p></li></ul></li><li><p>Secret exit</p></li></ul></li><li><p>Untracked file in git repository</p></li></ul></body>");
+    });
+
+  });
+
+  describe("blocks", function() {
+
+    it("should parse blocks", function() {
+      return tkTest("blocks_1.adoc", "<body><div><p>This is inside a block</p></div><p>This is outside</p></body>");
     });
 
   });
