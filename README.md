@@ -5,6 +5,11 @@ Asciishaman
 
 A pure JavaScript implementation of the AsciiDoc document language for Node.
 
+Run the tests
+=============
+
+    npm test
+
 License
 =======
 
