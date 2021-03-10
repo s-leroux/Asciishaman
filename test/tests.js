@@ -10,6 +10,7 @@ describe("module", function() {
 require("./inline-parser.js");
 require("./visitor.js");
 require("./model.js");
+require("./builder.js");
 
 require("./tokenizer.js");
 require("./parser.js");
