@@ -91,8 +91,19 @@ describe("parser", function() {
 
   describe("lists", function() {
 
+    it("should parse unordered lists", function() {
+      return tkTest("lists_1.adoc",
+        "<body><ul><li><p>Edgar Allan Poe</p></li><li><p>Sheri S. Tepper</p></li><li><p>Bill Bryson</p></li></ul></body>");
+    });
+
     it("should parse nested unordered lists", function() {
-      return tkTest("lists_2.adoc", "<body><ul><li><p>West wood maze</p><ul><li><p>Maze heart</p><ul><li><p>Reflection pool</p></li></ul></li><li><p>Secret exit</p></li></ul></li><li><p>Untracked file in git repository</p></li></ul></body>");
+      return tkTest("lists_2.adoc",
+        "<body><ul><li><p>West wood maze</p><ul><li><p>Maze heart</p><ul><li><p>Reflection pool</p></li></ul></li><li><p>Secret exit</p></li></ul></li><li><p>Untracked file in git repository</p></li></ul></body>");
+    });
+
+    it("should parse unordered lists (with blank lines between items)", function() {
+      return tkTest("lists_4.adoc",
+        "<body><ul><li><p>Edgar Allan Poe</p></li><li><p>Sheri S. Tepper</p></li><li><p>Bill Bryson</p></li></ul></body>");
     });
 
   });
