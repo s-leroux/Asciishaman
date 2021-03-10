@@ -111,7 +111,13 @@ describe("parser", function() {
   describe("blocks", function() {
 
     it("should parse blocks", function() {
-      return tkTest("blocks_1.adoc", "<body><div><p>This is inside a block</p></div><p>This is outside</p></body>");
+      return tkTest("blocks_1.adoc",
+        "<body><div><p>This is inside a block</p></div><p>This is outside</p></body>");
+    });
+
+    it("should parse nested blocks", function() {
+      return tkTest("blocks_2.adoc",
+        "<body><div><p>outer</p><div><p>inner</p></div><p>outer</p></div></body>");
     });
 
   });
