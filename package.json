@@ -17,7 +17,7 @@
     "template"
   ],
   "author": "Sylvain Leroux",
-  "license": "GPL-3.0-or-later",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/s-leroux/Asciishaman/issues"
   },
@@ -30,6 +30,6 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "debug": "^4.3.1",
-    "pegparse": "0.0.8"
+    "pegparse": "0.0.9"
   }
 }
