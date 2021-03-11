@@ -1,6 +1,6 @@
 {
   "name": "asciishaman",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A pure JavaScript implementation of the AsciiDoc document language for Node.",
   "main": "index.js",
   "scripts": {
