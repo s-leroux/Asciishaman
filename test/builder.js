@@ -103,12 +103,12 @@ describe("builder", function() {
       let root = new db.DocumentBuilder();
       let builder = root;
 
-      builder = builder.blockDelimiter(2, "=");
+      builder = builder.blockDelimiter(2, "=", []);
       builder = builder.addText("a");
-      builder = builder.blockDelimiter(3, "=");
+      builder = builder.blockDelimiter(3, "=", []);
       builder = builder.addText("b");
-      builder = builder.blockDelimiter(3, "=");
-      builder = builder.blockDelimiter(2, "=");
+      builder = builder.blockDelimiter(3, "=", []);
+      builder = builder.blockDelimiter(2, "=", []);
 
       while(builder) {
         builder = builder.close();
@@ -120,9 +120,13 @@ describe("builder", function() {
       assert.deepEqual(document, {
         "document": [
           {
+            "metadata": [],
             "block": [
               { "paragraph": [ [ "a" ] ] },
-              { "block": [ { "paragraph": [ [ "b" ] ] } ] }
+              {
+                "metadata": [],
+                "block": [ { "paragraph": [ [ "b" ] ] } ] 
+              }
             ]
           },
         ]
@@ -133,12 +137,12 @@ describe("builder", function() {
       let root = new db.DocumentBuilder();
       let builder = root;
 
-      builder = builder.blockDelimiter(2, "=");
+      builder = builder.blockDelimiter(2, "=", []);
       builder = builder.addText("a");
-      builder = builder.blockDelimiter(2, "=");
+      builder = builder.blockDelimiter(2, "=", []);
       builder = builder.addText("b");
-      builder = builder.blockDelimiter(2, "=");
-      builder = builder.blockDelimiter(2, "=");
+      builder = builder.blockDelimiter(2, "=", []);
+      builder = builder.blockDelimiter(2, "=", []);
 
       while(builder) {
         builder = builder.close();
@@ -150,12 +154,14 @@ describe("builder", function() {
       assert.deepEqual(document, {
         "document": [
           {
+            "metadata": [],
             "block": [
               { "paragraph": [ [ "a" ] ] },
             ],
           },
           { "paragraph": [ [ "b" ] ] },
           {
+            "metadata": [],
             "block": [
             ]
           }

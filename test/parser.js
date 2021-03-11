@@ -18,6 +18,7 @@ const parser = require("../lib/parser");
 const { Tokenizer } = require("../lib/tokenizer");
 const { Diagnostic } = require("../lib/diagnostic");
 const { HTMLVisitor } = require("../lib/visitors/html"); 
+const { ModelVisitor } = require("../lib/visitors/model.js");
 
 function tkTest(fName, expected) {
   const fPath = fixture(fName);
@@ -38,7 +39,28 @@ function tkTest(fName, expected) {
     })
     .then(() => {
       assert.deepEqual(diagnostic._errors, []);
-      assert.equal(output.toString(), expected);
+      assert.equal(output.toString(), expected, `while processing ${fName}`);
+    });
+}
+
+function mdTest(fName, expected) {
+  const fPath = fixture(fName);
+  const input = fs.createReadStream(fPath, { highWaterMark: 16 });
+  const diagnostic = new Diagnostic(fPath);
+  const tokenizer = Tokenizer(input);
+
+  return parser.Parser(diagnostic, tokenizer)
+    .then((document) => {
+      assert.isOk(document);
+      // console.dir(document, {depth: Infinity});
+      const visitor = new ModelVisitor();
+
+      return visitor.visit(document);
+      // assert.deepEqual(result, expected);
+    })
+    .then((result) => {
+      assert.deepEqual(diagnostic._errors, []);
+      assert.deepEqual(result, expected, `while processing ${fName}`);
     });
 }
 
@@ -118,6 +140,27 @@ describe("parser", function() {
     it("should parse nested blocks", function() {
       return tkTest("blocks_2.adoc",
         "<body><div><p>outer</p><div><p>inner</p></div><p>outer</p></div></body>");
+    });
+
+    it("should accept poitional attributes", function() {
+      return mdTest("blocks_3.adoc",
+        {
+          "document": [
+            {
+              "metadata": [ 'attr1' ],
+              "block": [
+                { "paragraph": [[ "blk1" ]] }
+              ]
+            },
+            {
+              "metadata": [ 'attr1', 'attr2' ],
+              "block": [
+                { "paragraph": [[ "blk2" ]] }
+              ]
+            },
+          ]
+        }
+      );
     });
 
   });
