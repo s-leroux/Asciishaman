@@ -1,0 +1,3 @@
+An attribute list
+[example]
+introduces a new paragraph

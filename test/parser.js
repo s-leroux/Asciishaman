@@ -116,6 +116,11 @@ describe("parser", function() {
 
     });
 
+    it("should create explicit paragraph", function() {
+      return tkTest("paragraph_3.adoc", "<body><p>An attribute list</p><p>introduces a new paragraph</p></body>");
+
+    });
+
   });
 
   describe("sections", function() {
@@ -157,7 +162,7 @@ describe("parser", function() {
         "<body><div><p>outer</p><div><p>inner</p></div><p>outer</p></div></body>");
     });
 
-    it("should accept poitional attributes", function() {
+    it("should accept positional attributes", function() {
       return mdTest("blocks_3.adoc",
         {
           "document": [
