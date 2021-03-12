@@ -167,13 +167,13 @@ describe("parser", function() {
         {
           "document": [
             {
-              "metadata": [ 'attr1' ],
+              "metadata": [ "attr1" ],
               "block": [
                 { "paragraph": [[ "blk1" ]] }
               ]
             },
             {
-              "metadata": [ 'attr1', 'attr2' ],
+              "metadata": [ "attr1", "attr2" ],
               "block": [
                 { "paragraph": [[ "blk2" ]] }
               ]
