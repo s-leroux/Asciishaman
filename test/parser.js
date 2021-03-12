@@ -75,7 +75,10 @@ function mdTest(fName, expected) {
     })
     .then((result) => {
       assert.deepEqual(diagnostic._errors, []);
-      assert.deepEqual(result, expected, `while processing ${fName}`);
+      if (expected !== undefined)
+        assert.deepEqual(result, expected, `while processing ${fName}`);
+
+      return result;
     });
 }
 
@@ -165,6 +168,7 @@ describe("parser", function() {
     it("should accept positional attributes", function() {
       return mdTest("blocks_3.adoc",
         {
+          "title": undefined,
           "document": [
             {
               "metadata": [ "attr1" ],
@@ -181,6 +185,16 @@ describe("parser", function() {
           ]
         }
       );
+    });
+
+  });
+
+  describe("document header", function() {
+
+    it("should find the document title", function() {
+      return mdTest("header_1.adoc").then((document) => {
+        assert.equal(document.title, "The title");      
+      });
     });
 
   });

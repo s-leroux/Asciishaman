@@ -25,7 +25,7 @@ describe("model", function() {
   this.timeout(10);
 
   it("should create document", function() {
-    const document = new dom.Document([]);
+    const document = new dom.Document({}, []);
 
     assert.isNotNull(document);
     assert.deepEqual(document.children, []);

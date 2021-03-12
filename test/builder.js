@@ -50,6 +50,7 @@ describe("builder", function() {
       const document = model.visit(root.document);
 
       assert.deepEqual(document, {
+        "title": undefined,
         "document": [
           {
             "paragraph": [ [ "a b c" ] ]
@@ -79,6 +80,7 @@ describe("builder", function() {
       const document = model.visit(root.document);
 
       assert.deepEqual(document, {
+        "title": undefined,
         "document": [
           {
             "paragraph": [ [ "d" ] ]
@@ -103,6 +105,7 @@ describe("builder", function() {
       const document = model.visit(root.document);
 
       assert.deepEqual(document, {
+        "title": undefined,
         "document": [
           {
             "heading": "hello",
@@ -133,6 +136,7 @@ describe("builder", function() {
       const document = model.visit(root.document);
 
       assert.deepEqual(document, {
+        "title": undefined,
         "document": [
           {
             "metadata": [],
@@ -167,6 +171,7 @@ describe("builder", function() {
       const document = model.visit(root.document);
 
       assert.deepEqual(document, {
+        "title": undefined,
         "document": [
           {
             "metadata": [],
@@ -203,6 +208,7 @@ describe("builder", function() {
       const document = model.visit(root.document);
 
       assert.deepEqual(document, {
+        "title": undefined,
         "document": [
           {
             "ul": [
