@@ -47,16 +47,13 @@ describe("builder", function() {
       }
 
       const model = new ModelVisitor();
-      const document = model.visit(root.document);
+      const {document} = model.visit(root.document);
 
-      assert.deepEqual(document, {
-        "title": undefined,
-        "document": [
-          {
-            "paragraph": [ [ "a b c" ] ]
-          },
-        ]
-      });
+      assert.deepEqual(document, [
+        {
+          "paragraph": [ [ "a b c" ] ]
+        },
+      ]);
     });
 
     it("should create paragraph implicitly (backtrack)", function() {
@@ -77,16 +74,13 @@ describe("builder", function() {
       }
 
       const model = new ModelVisitor();
-      const document = model.visit(root.document);
+      const {document} = model.visit(root.document);
 
-      assert.deepEqual(document, {
-        "title": undefined,
-        "document": [
-          {
-            "paragraph": [ [ "d" ] ]
-          },
-        ]
-      });
+      assert.deepEqual(document, [
+        {
+          "paragraph": [ [ "d" ] ]
+        },
+      ]);
     });
 
     it("should create sections", function() {
@@ -102,19 +96,16 @@ describe("builder", function() {
       }
 
       const model = new ModelVisitor();
-      const document = model.visit(root.document);
+      const {document} = model.visit(root.document);
 
-      assert.deepEqual(document, {
-        "title": undefined,
-        "document": [
-          {
-            "heading": "hello",
-            "content": [
-              { "paragraph": [ [ "a b" ] ] }
-            ]
-          },
-        ]
-      });
+      assert.deepEqual(document, [
+        {
+          "heading": "hello",
+          "content": [
+            { "paragraph": [ [ "a b" ] ] }
+          ]
+        },
+      ]);
     });
 
     it("should create nested blocks", function() {
@@ -133,23 +124,20 @@ describe("builder", function() {
       }
 
       const model = new ModelVisitor();
-      const document = model.visit(root.document);
+      const {document} = model.visit(root.document);
 
-      assert.deepEqual(document, {
-        "title": undefined,
-        "document": [
-          {
-            "metadata": [],
-            "block": [
-              { "paragraph": [ [ "a" ] ] },
-              {
-                "metadata": [],
-                "block": [ { "paragraph": [ [ "b" ] ] } ] 
-              }
-            ]
-          },
-        ]
-      });
+      assert.deepEqual(document, [
+        {
+          "metadata": [],
+          "block": [
+            { "paragraph": [ [ "a" ] ] },
+            {
+              "metadata": [],
+              "block": [ { "paragraph": [ [ "b" ] ] } ] 
+            }
+          ]
+        },
+      ]);
     });
 
     it("should create consecutive blocks", function() {
@@ -168,25 +156,22 @@ describe("builder", function() {
       }
 
       const model = new ModelVisitor();
-      const document = model.visit(root.document);
+      const {document} = model.visit(root.document);
 
-      assert.deepEqual(document, {
-        "title": undefined,
-        "document": [
-          {
-            "metadata": [],
-            "block": [
-              { "paragraph": [ [ "a" ] ] },
-            ],
-          },
-          { "paragraph": [ [ "b" ] ] },
-          {
-            "metadata": [],
-            "block": [
-            ]
-          }
-        ]
-      });
+      assert.deepEqual(document, [
+        {
+          "metadata": [],
+          "block": [
+            { "paragraph": [ [ "a" ] ] },
+          ],
+        },
+        { "paragraph": [ [ "b" ] ] },
+        {
+          "metadata": [],
+          "block": [
+          ]
+        }
+      ]);
     });
 
     it("should create unordered lists", function() {
@@ -205,32 +190,29 @@ describe("builder", function() {
       }
 
       const model = new ModelVisitor();
-      const document = model.visit(root.document);
+      const {document} = model.visit(root.document);
 
-      assert.deepEqual(document, {
-        "title": undefined,
-        "document": [
-          {
-            "ul": [
-              {
-                "li": [
-                  { "paragraph": [ [ "a" ] ] },
-                ],
-              },
-              {
-                "li": [
-                  { "paragraph": [ [ "b" ] ] },
-                ],
-              },
-              {
-                "li": [
-                  { "paragraph": [ [ "c" ] ] },
-                ],
-              },
-            ],
-          },
-        ]
-      });
+      assert.deepEqual(document, [
+        {
+          "ul": [
+            {
+              "li": [
+                { "paragraph": [ [ "a" ] ] },
+              ],
+            },
+            {
+              "li": [
+                { "paragraph": [ [ "b" ] ] },
+              ],
+            },
+            {
+              "li": [
+                { "paragraph": [ [ "c" ] ] },
+              ],
+            },
+          ],
+        },
+      ]);
     });
 
   });

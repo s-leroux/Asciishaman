@@ -32,7 +32,7 @@ function fixture(fName) { // XXX move me to test/utils.js
 const parser = require("../lib/parser");
 const { Tokenizer } = require("../lib/tokenizer");
 const { Diagnostic } = require("../lib/diagnostic");
-const { HTMLVisitor } = require("../lib/visitors/html"); 
+const { HTMLVisitor } = require("../lib/visitors/html");
 const { ModelVisitor } = require("../lib/visitors/model.js");
 
 function tkTest(fName, expected) {
@@ -166,25 +166,22 @@ describe("parser", function() {
     });
 
     it("should accept positional attributes", function() {
-      return mdTest("blocks_3.adoc",
-        {
-          "title": undefined,
-          "document": [
-            {
-              "metadata": [ "attr1" ],
-              "block": [
-                { "paragraph": [[ "blk1" ]] }
-              ]
-            },
-            {
-              "metadata": [ "attr1", "attr2" ],
-              "block": [
-                { "paragraph": [[ "blk2" ]] }
-              ]
-            },
-          ]
-        }
-      );
+      return mdTest("blocks_3.adoc").then(function({document}) {
+        assert.deepEqual(document, [
+          {
+            "metadata": [ "attr1" ],
+            "block": [
+              { "paragraph": [[ "blk1" ]] }
+            ]
+          },
+          {
+            "metadata": [ "attr1", "attr2" ],
+            "block": [
+              { "paragraph": [[ "blk2" ]] }
+            ]
+          },
+        ]);
+      });
     });
 
   });
@@ -193,7 +190,78 @@ describe("parser", function() {
 
     it("should find the document title", function() {
       return mdTest("header_1.adoc").then((document) => {
-        assert.equal(document.title, "The title");      
+        assert.equal(document.title, "The title");
+      });
+    });
+
+    it("should find the author name (first, last, email)", function() {
+      return mdTest("header_2.adoc").then((document) => {
+        assert.deepEqual(document.authors, [
+          {
+            "firstname": "Sylvain",
+            "middlename": undefined,
+            "lastname": "Leroux",
+            "email": "sylvain@chicoree.fr",
+          }
+        ]);
+      });
+    });
+
+    it("should find the author name (first, middle, last, email)", function() {
+      return mdTest("header_3.adoc").then((document) => {
+        assert.deepEqual(document.authors, [
+          {
+            "firstname": "Sylvain",
+            "middlename": "C.",
+            "lastname": "Leroux",
+            "email": "sylvain@chicoree.fr",
+          }
+        ]);
+      });
+    });
+
+    it("should find the author name (first, middle, last)", function() {
+      return mdTest("header_4.adoc").then((document) => {
+        assert.deepEqual(document.authors, [
+          {
+            "firstname": "Sylvain",
+            "middlename": "C.",
+            "lastname": "Leroux",
+            "email": undefined,
+          }
+        ]);
+      });
+    });
+
+    it("should find the author name (first, last)", function() {
+      return mdTest("header_5.adoc").then((document) => {
+        assert.deepEqual(document.authors, [
+          {
+            "firstname": "Sylvain",
+            "middlename": undefined,
+            "lastname": "Leroux",
+            "email": undefined,
+          }
+        ]);
+      });
+    });
+
+    it("should parse an author list", function() {
+      return mdTest("header_6.adoc").then((document) => {
+        assert.deepEqual(document.authors, [
+          {
+            "firstname": "Sylvain",
+            "middlename": undefined,
+            "lastname": "Leroux",
+            "email": undefined,
+          },
+          {
+            "firstname": "Sonia",
+            "middlename": undefined,
+            "lastname": "Leroux",
+            "email": undefined,
+          }
+        ]);
       });
     });
 
