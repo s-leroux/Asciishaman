@@ -265,6 +265,18 @@ describe("parser", function() {
       });
     });
 
+    it("should parse attributes", function() {
+      return mdTest("header_7.adoc").then((document) => {
+        assert.deepEqual(document.attributes,
+          {
+            "empty-attr1" : "",
+            "empty-attr2" : "",
+            "non-empty-attr": "value",
+          },
+        );
+      });
+    });
+
   });
 
   describe("AsciiDoc test suite", function() {

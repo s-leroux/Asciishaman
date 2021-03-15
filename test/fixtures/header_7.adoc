@@ -1,0 +1,8 @@
+= The title
+:non-empty-attr: value
+:empty-attr1:
+:empty-attr2:     
+//           ^^^^^
+// Trailing space here
+
+The body
