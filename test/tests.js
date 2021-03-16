@@ -27,5 +27,6 @@ require("./visitor.js");
 require("./model.js");
 require("./builder.js");
 
+require("./preprocessor.js");
 require("./tokenizer.js");
 require("./parser.js");

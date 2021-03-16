@@ -73,6 +73,7 @@ describe("The tokenizer", function() {
         [ "plain-text", "A paragraph is just one or more lines of consecutive text." ],
         [ "blank-line", 1 ],
         [ "plain-text", "To begin a new paragraph, separate it by at least one blank line from the previous paragraph or block." ],
+        [ "blank-line", 1 ],
         [ "end" ],
       ]);
     });
@@ -82,6 +83,7 @@ describe("The tokenizer", function() {
         [ "plain-text", "This document" ],
         [ "plain-text", "contains trailing spaces" ],
         [ "plain-text", "and tabs." ],
+        [ "blank-line", 1 ],
         [ "end" ],
       ]);
     });
@@ -94,6 +96,7 @@ describe("The tokenizer", function() {
         [ "plain-text", "        and" ],
         [ "blank-line", 2 ],
         [ "plain-text", "       tabs." ],
+        [ "blank-line", 1 ],
         [ "end" ],
       ]);
     });
