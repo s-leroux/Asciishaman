@@ -20,6 +20,7 @@ const assert = chai.assert;
 
 
 const ip = require("../lib/inline-parser.js");
+const builder = require("../lib/builder");
 
 const streams = require("memory-streams");
 const { HTMLVisitor } = require("../lib/visitors/html.js");
@@ -107,6 +108,32 @@ describe("inline parser", function() {
     const style = ip.parseText("Hello `world` !");
 
     return dump(style).then((html) => assert.equal(html, "Hello <tt>world</tt> !"));
+  });
+
+  describe("macros", function() {
+    beforeEach(function() {
+      this.docBuilder = new builder.DocumentBuilder();
+      this.paraBuilder = this.docBuilder.paragraph([]);
+    });
+
+    it("should invoke the default handler", function() {
+      const style = ip.parseText("Some unknown:macro[]", this.paraBuilder);
+
+      return dump(style).then((html) => assert.equal(html, "Some <tt>unknown:macro[]</tt>"));
+    });
+
+    it("should handle links (default text)", function() {
+      const style = ip.parseText("Link to http://docs.asciidoctor.org[]", this.paraBuilder);
+
+      return dump(style).then((html) => assert.equal(html, "Link to <a href='http://docs.asciidoctor.org'>http://docs.asciidoctor.org</a>"));
+    });
+
+    it("should handle links (custom text)", function() {
+      const style = ip.parseText("Link to http://docs.asciidoctor.org[the docs]", this.paraBuilder);
+
+      return dump(style).then((html) => assert.equal(html, "Link to <a href='http://docs.asciidoctor.org'>the docs</a>"));
+    });
+
   });
 
   describe("mixed content", function() {
