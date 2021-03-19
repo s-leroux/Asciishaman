@@ -104,8 +104,18 @@ describe("inline parser", function() {
 
   it("should parse monospace", function() {
     const style = ip.parseText("Hello `world` !");
-
     return dump(style).then((html) => assert.equal(html, "Hello <tt>world</tt> !"));
+  });
+
+  it("should parse id", function() {
+    const style = ip.parseText("[#my-id]*Hello*");
+    assert.equal(style.children[0].attributes.get('id'), "my-id");
+  });
+
+  it("should parse id and role", function() {
+    const style = ip.parseText("[#my-id.my-role]*Hello*");
+    assert.equal(style.children[0].attributes.get('id'), "my-id");
+    assert.deepEqual(style.children[0].attributes.get('roles'), ["my-role"]);
   });
 
   describe("macros", function() {
