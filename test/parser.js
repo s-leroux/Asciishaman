@@ -20,8 +20,6 @@ const debug = require("debug")("asciishaman:tests-parser");
 const chai = require("chai");
 const assert = chai.assert;
 
-const streams = require("memory-streams");
-
 const fs = require("fs");
 const path = require("path");
 
@@ -38,7 +36,6 @@ const { ModelVisitor } = require("../lib/visitors/model.js");
 function tkTest(fName, expected) {
   const fPath = fixture(fName);
   const input = fs.createReadStream(fPath, { highWaterMark: 16 });
-  const output = new streams.WritableStream();
 
   const diagnostic = new Diagnostic(fPath);
   const tokenizer = Tokenizer(input);
@@ -47,14 +44,14 @@ function tkTest(fName, expected) {
     .then((document) => {
       assert.isOk(document);
       // console.dir(document, {depth: Infinity});
-      const visitor = new HTMLVisitor(output);
+      const visitor = new HTMLVisitor();
 
       return visitor.visit(document);
       // assert.deepEqual(result, expected);
     })
-    .then(() => {
+    .then((output) => {
       assert.deepEqual(diagnostic._errors, []);
-      assert.equal(output.toString(), expected, `while processing ${fName}`);
+      assert.equal(output, expected, `while processing ${fName}`);
     });
 }
 

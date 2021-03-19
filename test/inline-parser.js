@@ -18,20 +18,18 @@
 const chai = require("chai");
 const assert = chai.assert;
 
-
+const Promise = require("bluebird");
 const ip = require("../lib/inline-parser.js");
 const builder = require("../lib/builder");
 
-const streams = require("memory-streams");
 const { HTMLVisitor } = require("../lib/visitors/html.js");
 
 describe("inline parser", function() {
   this.timeout(10);
 
   function dump(phrasingContent) {
-    const writable = new streams.WritableStream();
-    const visitor = new HTMLVisitor(writable);
-    return visitor.visit(phrasingContent).then(() => writable.toString());
+    const visitor = new HTMLVisitor();
+    return Promise.resolve(visitor.visit(phrasingContent));
   }
 
   it("should keep plaintext intect", function() {
@@ -130,6 +128,12 @@ describe("inline parser", function() {
 
     it("should handle links (custom text)", function() {
       const style = ip.parseText("Link to http://docs.asciidoctor.org[the docs]", this.paraBuilder);
+
+      return dump(style).then((html) => assert.equal(html, "Link to <a href='http://docs.asciidoctor.org'>the docs</a>"));
+    });
+
+    it("should handle links (custom text, named attribute)", function() {
+      const style = ip.parseText("Link to http://docs.asciidoctor.org[text=the docs]", this.paraBuilder);
 
       return dump(style).then((html) => assert.equal(html, "Link to <a href='http://docs.asciidoctor.org'>the docs</a>"));
     });

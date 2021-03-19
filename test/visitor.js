@@ -39,14 +39,8 @@ describe("visitor (html)", function() {
 
     const document = builder.document;
 
-    const writable = new streams.WritableStream();
-    const visitor = new HTMLVisitor(writable);
-    return visitor.visit(document).then(() => {
-      assert.equal(
-        writable.toString(),
-        "<body><p>Hello</p><p>World!</p></body>"
-      );
-    });
+    const visitor = new HTMLVisitor();
+    assert.equal(visitor.visit(document), "<body><p>Hello</p><p>World!</p></body>");
   });
 
 });

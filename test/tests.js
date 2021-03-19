@@ -22,6 +22,7 @@ describe("module", function() {
   });
 });
 
+require("./common-expr.js");
 require("./inline-parser.js");
 require("./visitor.js");
 require("./model.js");
