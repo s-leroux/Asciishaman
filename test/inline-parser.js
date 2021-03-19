@@ -52,6 +52,54 @@ describe("inline parser", function() {
       return dump(style).then((html) => assert.equal(html, "Hello <strong>w</strong>orld !"));
     });
 
+    it("should parse emphasis (constrained)", function() {
+      const style = ip.parseText("Hello _world_ !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <em>world</em> !"));
+    });
+
+    it("should parse emphasis (uncontrained)", function() {
+      const style = ip.parseText("Hello __w__orld !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <em>w</em>orld !"));
+    });
+
+    it("should parse monospace (constrained)", function() {
+      const style = ip.parseText("Hello `world` !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <tt>world</tt> !"));
+    });
+
+    it("should parse monospace (uncontrained)", function() {
+      const style = ip.parseText("Hello ``w``orld !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <tt>w</tt>orld !"));
+    });
+
+    it("should parse mark (constrained)", function() {
+      const style = ip.parseText("Hello #world# !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <span>world</span> !"));
+    });
+
+    it("should parse mark (uncontrained)", function() {
+      const style = ip.parseText("Hello ##w##orld !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <span>w</span>orld !"));
+    });
+
+    it("should parse superscript", function() {
+      const style = ip.parseText("Hello ^world^ !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <sup>world</sup> !"));
+    });
+
+    it("should parse subscript", function() {
+      const style = ip.parseText("Hello ~world~ !");
+
+      return dump(style).then((html) => assert.equal(html, "Hello <sub>world</sub> !"));
+    });
+
     it("should backtrack to constrained if needed ", function() {
       const style = ip.parseText("Hello **world* !");
 
@@ -96,17 +144,6 @@ describe("inline parser", function() {
     return dump(style).then((html) => assert.equal(html, "<strong>world</strong>"));
   });
 
-  it("should parse superscript", function() {
-    const style = ip.parseText("Hello ^world^ !");
-
-    return dump(style).then((html) => assert.equal(html, "Hello <sup>world</sup> !"));
-  });
-
-  it("should parse monospace", function() {
-    const style = ip.parseText("Hello `world` !");
-    return dump(style).then((html) => assert.equal(html, "Hello <tt>world</tt> !"));
-  });
-
   it("should parse id", function() {
     const style = ip.parseText("[#my-id]*Hello*");
     assert.equal(style.children[0].attributes.get('id'), "my-id");
@@ -114,6 +151,7 @@ describe("inline parser", function() {
 
   it("should parse id and role", function() {
     const style = ip.parseText("[#my-id.my-role]*Hello*");
+
     assert.equal(style.children[0].attributes.get('id'), "my-id");
     assert.deepEqual(style.children[0].attributes.get('roles'), ["my-role"]);
   });
