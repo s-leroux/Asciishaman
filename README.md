@@ -10,6 +10,14 @@ Run the tests
 
     npm test
 
+Sample usage
+===========
+
+    export URL_DOC="https://raw.githubusercontent.com/asciidoctor/asciidoctor-community-docs"
+    wget "${URL_DOC}/main/README.adoc" -O sample.adoc
+    bin/asciishaman sample.adoc > sample.html
+    firefox sample.html
+
 License
 =======
 

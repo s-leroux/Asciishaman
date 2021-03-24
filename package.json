@@ -7,6 +7,9 @@
     "test": "mocha test/tests.js",
     "lint": "eslint --fix ."
   },
+  "bin": {
+    "asciishaman": "./bin/asciishaman"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/s-leroux/Asciishaman.git"
@@ -30,6 +33,7 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "debug": "^4.3.1",
-    "pegparse": "0.0.11"
+    "pegparse": "0.0.11",
+    "yargs": "^16.2.0"
   }
 }

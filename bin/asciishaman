@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+"use strict";
+
+const parser = require("../lib/parser");
+const { Tokenizer } = require("../lib/tokenizer");
+const { Diagnostic } = require("../lib/diagnostic");
+const { HTMLVisitor } = require("../lib/visitors/html");
+
+var argv = require('yargs/yargs')(process.argv.slice(2))
+    .usage("Usage: $0 [inputfile]")
+    .demandCommand(0,1)
+    .argv;
+
+const fs = require("fs");
+
+function run(istream, ostream, diagnostic) {
+  const tokenizer = Tokenizer(input);
+
+  return parser.Parser(diagnostic, tokenizer)
+    .then((document) => {
+      const visitor = new HTMLVisitor();
+      return visitor.visit(document);
+    })
+}
+
+function open(fPath, defaultStream) {
+  fPath = fPath ?? "-";
+  
+  return (fPath === "-") ? defaultStream : fs.createReadStream(fPath);
+}
+
+const input = open(argv._[0], process.stdin);
+const diagnostic = new Diagnostic(argv._[0] ?? "stdin");
+const output = open("-", process.stdout);
+
+run(input, output, diagnostic).
+  then((result) => output.write(result+"\n"));
