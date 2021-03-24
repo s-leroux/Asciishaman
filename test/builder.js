@@ -20,7 +20,7 @@ const assert = chai.assert;
 
 
 const db = require("../lib/builder.js");
-const { ModelVisitor } = require("../lib/visitors/model.js");
+const ModelVisitor = require("../lib/visitors/model.js");
 
 describe("builder", function() {
   this.timeout(10);

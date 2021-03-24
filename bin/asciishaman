@@ -5,7 +5,7 @@
 const parser = require("../lib/parser");
 const { Tokenizer } = require("../lib/tokenizer");
 const { Diagnostic } = require("../lib/diagnostic");
-const { HTMLVisitor } = require("../lib/visitors/html");
+const HTMLVisitor = require("../lib/visitors/html");
 
 var argv = require('yargs/yargs')(process.argv.slice(2))
     .usage("Usage: $0 [inputfile]")

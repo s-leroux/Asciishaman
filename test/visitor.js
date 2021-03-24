@@ -20,7 +20,7 @@ const assert = chai.assert;
 
 const streams = require("memory-streams");
 
-const { HTMLVisitor } = require("../lib/visitors/html.js");
+const HTMLVisitor = require("../lib/visitors/html.js");
 const { DocumentBuilder } = require("../lib/builder.js");
 
 describe("visitor (html)", function() {
@@ -45,3 +45,30 @@ describe("visitor (html)", function() {
 
 });
 
+const visitors = {
+  "html": require("../lib/visitors/html.js"),
+  "model": require("../lib/visitors/model.js"),
+};
+
+const nodes = require("../lib/model.js");
+for (let name of Object.keys(visitors)) {
+  describe(`visitor (${name})`, function() {
+    let visitor;
+
+    beforeEach(function() {
+      visitor = new visitors[name]();
+    });
+
+    for (let k of Object.keys(nodes)) {
+      const Node = nodes[k];
+      const node = new Node();
+
+      // Only consider classes who implement their own version of `accept`
+      if (node.accept !== nodes.Node.prototype.accept) {
+        it (`should accept  ${k}`, function() {
+          assert.isDefined(visitor.visit(node));
+        });
+      }
+    }
+  });
+}

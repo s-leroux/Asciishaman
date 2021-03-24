@@ -22,7 +22,7 @@ const Promise = require("bluebird");
 const ip = require("../lib/inline-parser.js");
 const builder = require("../lib/builder");
 
-const { HTMLVisitor } = require("../lib/visitors/html.js");
+const HTMLVisitor = require("../lib/visitors/html.js");
 
 describe("inline parser", function() {
   this.timeout(10);

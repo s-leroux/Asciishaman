@@ -30,8 +30,8 @@ function fixture(fName) { // XXX move me to test/utils.js
 const parser = require("../lib/parser");
 const { Tokenizer } = require("../lib/tokenizer");
 const { Diagnostic } = require("../lib/diagnostic");
-const { HTMLVisitor } = require("../lib/visitors/html");
-const { ModelVisitor } = require("../lib/visitors/model.js");
+const HTMLVisitor = require("../lib/visitors/html");
+const ModelVisitor = require("../lib/visitors/model.js");
 
 function tkTest(fName, expected) {
   const fPath = fixture(fName);
