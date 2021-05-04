@@ -51,7 +51,7 @@ describe("builder", function() {
 
       assert.deepEqual(document, [
         {
-          "paragraph": [ [ "a b c" ] ]
+          "paragraph": [ "a b c" ]
         },
       ]);
     });
@@ -78,7 +78,7 @@ describe("builder", function() {
 
       assert.deepEqual(document, [
         {
-          "paragraph": [ [ "d" ] ]
+          "paragraph": [ "d" ]
         },
       ]);
     });
@@ -102,7 +102,7 @@ describe("builder", function() {
         {
           "heading": "hello",
           "content": [
-            { "paragraph": [ [ "a b" ] ] }
+            { "paragraph": [ "a b" ] }
           ]
         },
       ]);
@@ -130,10 +130,10 @@ describe("builder", function() {
         {
           "metadata": [],
           "block": [
-            { "paragraph": [ [ "a" ] ] },
+            { "paragraph": [ "a" ] },
             {
               "metadata": [],
-              "block": [ { "paragraph": [ [ "b" ] ] } ] 
+              "block": [ { "paragraph": [ "b" ] } ] 
             }
           ]
         },
@@ -162,10 +162,10 @@ describe("builder", function() {
         {
           "metadata": [],
           "block": [
-            { "paragraph": [ [ "a" ] ] },
+            { "paragraph": [ "a" ] },
           ],
         },
-        { "paragraph": [ [ "b" ] ] },
+        { "paragraph": [ "b" ] },
         {
           "metadata": [],
           "block": [
@@ -197,17 +197,17 @@ describe("builder", function() {
           "ul": [
             {
               "li": [
-                { "paragraph": [ [ "a" ] ] },
+                { "paragraph": [ "a" ] },
               ],
             },
             {
               "li": [
-                { "paragraph": [ [ "b" ] ] },
+                { "paragraph": [ "b" ] },
               ],
             },
             {
               "li": [
-                { "paragraph": [ [ "c" ] ] },
+                { "paragraph": [ "c" ] },
               ],
             },
           ],

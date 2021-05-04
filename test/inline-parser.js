@@ -29,7 +29,7 @@ describe("inline parser", function() {
 
   function dump(phrasingContent) {
     const visitor = new HTMLVisitor();
-    return Promise.resolve(visitor.visit(phrasingContent));
+    return Promise.resolve(visitor.visitAll(phrasingContent).join(""));
   }
 
   it("should keep plaintext intect", function() {
@@ -146,14 +146,14 @@ describe("inline parser", function() {
 
   it("should parse id", function() {
     const style = ip.parseText("[#my-id]*Hello*");
-    assert.equal(style.children[0].attributes.get('id'), "my-id");
+    assert.equal(style[0].attributes.get('id'), "my-id");
   });
 
   it("should parse id and role", function() {
     const style = ip.parseText("[#my-id.my-role]*Hello*");
 
-    assert.equal(style.children[0].attributes.get('id'), "my-id");
-    assert.deepEqual(style.children[0].attributes.get('roles'), ["my-role"]);
+    assert.equal(style[0].attributes.get('id'), "my-id");
+    assert.deepEqual(style[0].attributes.get('roles'), ["my-role"]);
   });
 
   describe("macros", function() {
