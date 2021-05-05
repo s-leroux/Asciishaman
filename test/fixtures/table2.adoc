@@ -1,4 +1,0 @@
-== Section
-
-| A cell
-| Another cell

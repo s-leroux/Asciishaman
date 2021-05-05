@@ -96,7 +96,7 @@ describe("parser", function() {
   });
 
 
-  describe("core rules", function() {
+  describe("paragraphs", function() {
 
     it("should accept one-line documents", function() {
       return tkTest("text_1.adoc", "<body><p>A one-line document</p></body>");
@@ -119,6 +119,22 @@ describe("parser", function() {
     it("should create explicit paragraph", function() {
       return tkTest("paragraph_3.adoc", "<body><p>An attribute list</p><p>introduces a new paragraph</p></body>");
 
+    });
+
+  });
+
+  describe("tables", function() {
+
+    it("should parse tables (1)", function() {
+      return tkTest("tables_1.adoc", "<body><table><tr><td>A</td><td>Three columns</td><td>Table</td></tr></table></body>");
+    });
+
+    it("should parse tables (2)", function() {
+      return tkTest("tables_2.adoc", "<body><table><tr><td>A</td><td>Three columns</td><td>Table</td></tr></table></body>");
+    });
+
+    it("should parse tables (3)", function() {
+      return tkTest("tables_3.adoc", "<body><table><tr><td>A</td><td>Row</td></tr><tr><td>Another</td><td>Row</td></tr></table></body>");
     });
 
   });
@@ -168,13 +184,13 @@ describe("parser", function() {
           {
             "metadata": [ "attr1" ],
             "block": [
-              { "paragraph": [[ "blk1" ]] }
+              { "paragraph": [ "blk1" ] }
             ]
           },
           {
             "metadata": [ "attr1", "attr2" ],
             "block": [
-              { "paragraph": [[ "blk2" ]] }
+              { "paragraph": [ "blk2" ] }
             ]
           },
         ]);

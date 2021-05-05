@@ -1,7 +1,0 @@
-== Section
-
-[cols="1a,1a"]
-|===
-| A cell
-| === Another cell
-|===
